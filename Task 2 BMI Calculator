@@ -1,0 +1,25 @@
+def calculatebmi(weight_kg, height_m):
+    bmi = weight_kg / (height_m ** 2)
+    return bmi
+
+def classifybmi(bmi):
+    if bmi < 18.5:
+        return "Underweight"
+    elif 18.5 <= bmi < 24.9:
+        return "Normal Weight"
+    elif 25 <= bmi < 29.9:
+        return "Overweight"
+    elif 30 <= bmi < 34.9:
+        return "Obesity Class 1 (Moderate)"
+    elif 35 <= bmi < 39.9:
+        return "Obesity Class 2 (Severe)"
+    else:
+        return "Obesity Class 3 (Very Severe)"
+
+weight = float(input("Enter your weight in kilograms: "))
+height = float(input("Enter your height in meters: "))
+
+bmi = calculatebmi(weight, height)
+bmi_category = classifybmi(bmi)
+
+print(f"Your BMI is {bmi:.2f} \nYou are classified as: {bmi_category}")
