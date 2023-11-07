@@ -7,7 +7,7 @@ import webbrowser
 import random
 
 engine = pyttsx3.init('sapi5')
-voices= engine.getProperty('voices') #getting details of current voice
+voices= engine.getProperty('voices') 
 engine.setProperty('voice', voices[0].id)
 
 def speak(audio):
@@ -50,7 +50,6 @@ def wishme():
  hour = int(datetime.datetime.now().hour)
     
 def takeCommand():
-   #it takes microphone input from the user and return string output
 
    r = sr.Recognizer()
    with sr.Microphone() as source:
