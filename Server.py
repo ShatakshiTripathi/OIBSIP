@@ -1,30 +1,32 @@
 import socket
 import threading
 
-def handle_client(client_socket, username):
+def handle_client(client_socket):
     while True:
-        try:
-            message = client_socket.recv(1024).decode('utf-8')
-            if not message:
-                break
-            print(f"{username}: {message}")
-        except:
-            break
+        data = client_socket.recv(1024).decode('utf-8')
+        if not data:
+            break 
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(('0.0.0.0', 8888))
-server.listen(2)
+        print(f"Received from client: {data}")
 
-print("Server listening on port")
+        server_msg = input("User 2: ")
+        client_socket.send(server_msg.encode('utf-8'))
 
-clients = []
+    client_socket.close()
 
-while len(clients) < 2:
-    client_socket, _ = server.accept()
-    username = client_socket.recv(1024).decode('utf-8')
-    clients.append((username, client_socket))
+def start_server():
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind(('127.0.0.1', 8888))
+    server.listen(5)
 
-    
-    client_handler = threading.Thread(target=handle_client, args=(client_socket, username))
-    client_handler.start()
+    print("Server listening on port 8888...")
 
+    while True:
+        client, addr = server.accept()
+        print(f"Accepted connection from {addr[0]}:{addr[1]}")
+
+        client_handler = threading.Thread(target=handle_client, args=(client,))
+        client_handler.start()
+
+if __name__ == "__main__":
+    start_server()
